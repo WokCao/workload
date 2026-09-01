@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: food-review-dev
+resources:
+  - ../../base
+  - namespace.yaml
+# Secrets are provisioned out-of-band (kubectl create secret ...), NOT generated here.
+# Argo CD clones this repo fresh from GitHub — it never sees the gitignored *.secret.env
+# files on your machine, so a secretGenerator pointed at them would fail to build.
+# See README "Bootstrap secrets" for the one-time kubectl commands.

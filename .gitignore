@@ -1,0 +1,4 @@
+secret.env
+*.secret.env
+scripts/.last-digest-*
+.idea/

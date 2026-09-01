@@ -1,0 +1,15 @@
+# Non-secret defaults, mirrors the fallback values in food-review's application.yaml /
+# config/*.yaml. Per-env overlays patch the *_HOST values to point at in-cluster services
+# and can override anything else that differs between dev/stg.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: food-review-backend-config
+data:
+  POSTGRES_PORT: "5432"
+  POSTGRES_USER: postgres
+  REDIS_PORT: "6379"
+  AWS_S3_REGION: ap-southeast-1
+  AWS_S3_BUCKET_NAME: food-review
+  AWS_S3_PRESIGN_DURATION: "10"
+  JWT_EXPIRATION: "1800000"

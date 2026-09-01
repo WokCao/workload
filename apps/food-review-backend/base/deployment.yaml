@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: food-review-backend
+  labels:
+    app: food-review-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: food-review-backend
+  template:
+    metadata:
+      labels:
+        app: food-review-backend
+    spec:
+      containers:
+        - name: food-review-backend
+          image: food-review-backend
+          # Overlay's `dev` tag is a floating tag re-pushed by CI on every merge to main —
+          # Always is required so a rollout restart actually fetches the new content instead
+          # of reusing whatever the node cached under that tag name.
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: food-review-backend-config
+            - secretRef:
+                name: food-review-backend-secret
+          # Liquibase (200+ changesets) + Hibernate context init can take well over a minute
+          # on a resource-constrained local cluster. startupProbe gates liveness/readiness so
+          # a slow (but healthy) boot doesn't get killed as a false-positive liveness failure.
+          startupProbe:
+            httpGet:
+              path: /food-review/actuator/health/liveness
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /food-review/actuator/health/liveness
+              port: 8080
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /food-review/actuator/health/readiness
+              port: 8080
+            periodSeconds: 10

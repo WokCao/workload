@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: food-review-stg
+resources:
+  - ../../base
+  - namespace.yaml
+# Secrets are provisioned out-of-band (kubectl create secret ...), NOT generated here.
+# See README "Bootstrap secrets" for the one-time kubectl commands.

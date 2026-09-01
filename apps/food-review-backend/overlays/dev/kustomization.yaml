@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: food-review-dev
+resources:
+  - ../../base
+  - ingress.yaml
+patches:
+  - path: configmap-patch.yaml
+# Secret provisioned out-of-band — see README "Bootstrap secrets".
+images:
+  - name: food-review-backend
+    newName: ca0huuqu0c/food-review-backend
+    newTag: dev
+replicas:
+  - name: food-review-backend
+    count: 1
