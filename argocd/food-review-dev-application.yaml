@@ -1,0 +1,22 @@
+# Applied once manually (kubectl apply -f) into the argocd namespace — this is what tells
+# Argo CD to watch this repo. Not synced by Argo CD itself (no app-of-apps here yet).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: food-review-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/WokCao/workload.git
+    targetRevision: main
+    path: envs/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: food-review-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
