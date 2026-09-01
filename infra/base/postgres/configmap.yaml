@@ -3,5 +3,7 @@ kind: ConfigMap
 metadata:
   name: postgres-config
 data:
-  POSTGRES_DB: food_review
+  # Deliberately named differently from the "food_review" DB used by the user's local
+  # docker-compose Postgres, so the two never get mixed up mentally or by accident.
+  POSTGRES_DB: food_review_deploy
   POSTGRES_USER: postgres

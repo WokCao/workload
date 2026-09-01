@@ -7,3 +7,7 @@ data:
   REDIS_HOST: redis.food-review-dev.svc.cluster.local
   AWS_S3_ENDPOINT: http://minio.food-review-dev.svc.cluster.local:9000
   FRONTEND_URL: http://food-review.dev.local
+  # application.yaml hardcodes the db name segment of spring.datasource.url as "food_review"
+  # (not parameterized) — override the whole URL so this env points at food_review_deploy
+  # instead, matching infra/base/postgres/configmap.yaml's POSTGRES_DB.
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres.food-review-dev.svc.cluster.local:5432/food_review_deploy

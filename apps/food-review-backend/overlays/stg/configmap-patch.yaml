@@ -7,3 +7,4 @@ data:
   REDIS_HOST: redis.food-review-stg.svc.cluster.local
   AWS_S3_ENDPOINT: http://minio.food-review-stg.svc.cluster.local:9000
   FRONTEND_URL: http://food-review.stg.local
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres.food-review-stg.svc.cluster.local:5432/food_review_deploy
